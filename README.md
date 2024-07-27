@@ -1,70 +1,91 @@
-# Getting Started with Create React App
+## AnnotateX 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**AnnotateX** is a powerful and user-friendly image annotation tool designed to streamline the process of preparing datasets for computer vision projects. It offers a range of features that facilitate the annotation of images, making it an ideal choice for researchers, developers, and data scientists working on machine learning and deep learning tasks.
 
-## Available Scripts
+### Features
 
-In the project directory, you can run:
+- **Multi-Label Annotation**: Easily annotate images with multiple labels for complex object detection tasks.
+- **Polygonal Annotation**: Define precise regions of interest with polygonal shapes for segmentation tasks.
+- **Bounding Box**: Draw bounding boxes around objects for object detection and localization.
+- **Image Classification**: Label entire images for classification tasks.
+- **Customizable Categories**: Add, edit, or remove annotation categories to fit your specific dataset needs.
+- **Batch Processing**: Annotate multiple images in one go, saving time and effort.
+- **Data Export**: Export annotations in popular formats like JSON, XML (Pascal VOC), and COCO.
+- **User-Friendly Interface**: Intuitive UI/UX design for a seamless annotation experience.
+- **Collaboration Support**: Share projects and collaborate with team members in real-time.
 
-### `npm start`
+### Installation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+To install AnnotateX, follow these steps:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. **Clone the Repository**:
+   ```
+   git clone https://github.com/your-username/annotatex.git
+   cd annotatex
+   ```
 
-### `npm test`
+2. **Install Dependencies**:
+   Make sure you have Node.js and npm installed on your machine, then run:
+   ```
+   npm install
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. **Run the Application**:
+   ```
+   npm start
+   ```
+   The application will be available at `http://localhost:3000`.
 
-### `npm run build`
+### Usage
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. **Loading Images**: 
+   - You can load images from your local system or provide a URL to fetch them.
+   - Supported formats include JPEG, PNG, and BMP.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. **Annotating Images**:
+   - Use the toolbar to select the type of annotation you want to apply (bounding box, polygon, etc.).
+   - Click and drag on the image to create annotations.
+   - Adjust the annotation size and position as needed.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. **Managing Annotations**:
+   - Add, delete, or modify annotations through the sidebar.
+   - Assign categories to each annotation.
 
-### `npm run eject`
+4. **Exporting Data**:
+   - Once annotations are complete, export them using the export button.
+   - Choose the desired format (JSON, XML, COCO) and save the file.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Contributing
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+We welcome contributions to improve AnnotateX! To contribute, please follow these steps:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. **Fork the Repository**: 
+   Click the "Fork" button on the top right of this page.
+   
+2. **Create a New Branch**:
+   ```
+   git checkout -b feature/YourFeatureName
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+3. **Commit Your Changes**:
+   ```
+   git commit -m 'Add some feature'
+   ```
 
-## Learn More
+4. **Push to the Branch**:
+   ```
+   git push origin feature/YourFeatureName
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+5. **Create a Pull Request**:
+   Go to the original repository and click on "Pull Requests" to create a new pull request.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### License
 
-### Code Splitting
+AnnotateX is released under the [MIT License](LICENSE).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Acknowledgments
 
-### Analyzing the Bundle Size
+We thank all contributors and users who have supported the development of AnnotateX. Your feedback and contributions are invaluable to us!
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+*Happy annotating with AnnotateX!*
