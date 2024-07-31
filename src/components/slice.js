@@ -1,6 +1,6 @@
-
+// src/features/example/exampleSlice.js
 import { createSlice } from "@reduxjs/toolkit";
-import { STATE_SLICE_KEY } from "./constants";
+import * as ACTIONS from "./actionTypes";
 
 const initialValues = {
     selectedLabel: "some value",
@@ -10,10 +10,12 @@ const initialValues = {
     isDrawing: false,
     isResizing: false,
     isDragging: false,
+    isLoading: false,
+    error: null,
 };
 
 const slice = createSlice({
-    name: STATE_SLICE_KEY,
+    name: 'example',
     initialState: initialValues,
     reducers: {
         setSelectedLabel: (state, action) => {
@@ -40,13 +42,17 @@ const slice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase('INITIAL_LOADING', (state, action) => {
-                // Logic for initial loading, e.g., setting initial data from an API
-                state.shapes = action.payload.shapes || [];
+            .addCase(ACTIONS.LOAD_SHAPES_REQUEST, (state) => {
+                state.isLoading = true;
+                state.error = null;
             })
-            .addCase('SET_SHAPES', (state, action) => {
-                // Logic for setting shapes, can be used in multiple scenarios
+            .addCase(ACTIONS.LOAD_SHAPES_SUCCESS, (state, action) => {
+                state.isLoading = false;
                 state.shapes = action.payload;
+            })
+            .addCase(ACTIONS.LOAD_SHAPES_FAILURE, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
             });
     },
 });
