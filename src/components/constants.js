@@ -1,3 +1,5 @@
+export const STATE_SLICE_KEY = "editor"
+
 export const SHAPES = {
     CIRCLE: "circle",
     RECT: "rect",
