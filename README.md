@@ -20,7 +20,7 @@ To install AnnotateX, follow these steps:
 
 1. **Clone the Repository**:
    ```
-   git clone https://github.com/your-username/annotatex.git
+   git clone https://github.com/stormdotcom/annotatex.git
    cd annotatex
    ```
 
