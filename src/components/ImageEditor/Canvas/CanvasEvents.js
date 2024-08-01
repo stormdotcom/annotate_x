@@ -1,5 +1,7 @@
-import { drawShapes } from '../../utils/render';
-import { createShape } from '../../utils/shapes';
+/* eslint-disable no-case-declarations */
+/* eslint-disable no-use-before-define */
+import { drawShapes } from "../../utils/render";
+import { createShape } from "../../utils/shapes";
 
 export const handleMouseDown = (e, canvasRef, setCurrentShape, setIsDrawing, setIsResizing, setIsDragging, setStartX, setStartY, setHoveredHandle, shapes, canvasScale) => {
     const rect = canvasRef.current.getBoundingClientRect();
@@ -14,10 +16,10 @@ export const handleMouseDown = (e, canvasRef, setCurrentShape, setIsDrawing, set
     }
 
     const clickedShape = shapes.find(shape => {
-        if (shape.type === 'circle') {
+        if (shape.type === "circle") {
             const dist = Math.sqrt((x - shape.x) ** 2 + (y - shape.y) ** 2);
             return dist <= shape.radius;
-        } else if (shape.type === 'rect' || shape.type === 'roundedRect') {
+        } else if (shape.type === "rect" || shape.type === "roundedRect") {
             return x >= shape.x && x <= shape.x + shape.width && y >= shape.y && y <= shape.y + shape.height;
         }
         return false;
@@ -47,16 +49,16 @@ export const handleMouseMove = (e, canvasRef, context, imageRef, shapes, current
         context.lineWidth = 2;
         context.setLineDash([5, 3]);
         switch (selectedShape) {
-            case 'circle':
+            case "circle":
                 const radius = Math.sqrt((x - setStartX) ** 2 + (y - setStartY) ** 2);
                 context.beginPath();
                 context.arc(setStartX, setStartY, radius, 0, 2 * Math.PI);
                 context.stroke();
                 break;
-            case 'rect':
+            case "rect":
                 context.strokeRect(setStartX, setStartY, x - setStartX, y - setStartY);
                 break;
-            case 'roundedRect':
+            case "roundedRect":
                 context.beginPath();
                 context.moveTo(setStartX + 20, setStartY);
                 context.lineTo(setStartX + (x - setStartX) - 20, setStartY);
@@ -88,14 +90,14 @@ export const handleMouseMove = (e, canvasRef, context, imageRef, shapes, current
         const updatedShapes = shapes.map(shape => {
             if (shape.id === currentShape.id) {
                 switch (shape.type) {
-                    case 'circle':
+                    case "circle":
                         return { ...shape, radius: Math.sqrt((x - shape.x) ** 2 + (y - shape.y) ** 2) };
-                    case 'rect':
-                    case 'roundedRect':
+                    case "rect":
+                    case "roundedRect":
                         return {
                             ...shape,
-                            width: setHoveredHandle.includes('right') ? x - shape.x : shape.width,
-                            height: setHoveredHandle.includes('bottom') ? y - shape.y : shape.height,
+                            width: setHoveredHandle.includes("right") ? x - shape.x : shape.width,
+                            height: setHoveredHandle.includes("bottom") ? y - shape.y : shape.height
                         };
                     default:
                         return shape;
@@ -108,17 +110,17 @@ export const handleMouseMove = (e, canvasRef, context, imageRef, shapes, current
         const handle = getHandleAtPosition(x, y, shapes, canvasScale);
         setHoveredHandle(handle);
         if (handle) {
-            canvasRef.current.style.cursor = 'nwse-resize';
+            canvasRef.current.style.cursor = "nwse-resize";
         } else {
-            canvasRef.current.style.cursor = 'default';
+            canvasRef.current.style.cursor = "default";
         }
 
         // Select shape on hover
         const hoveredShape = shapes.find(shape => {
-            if (shape.type === 'circle') {
+            if (shape.type === "circle") {
                 const dist = Math.sqrt((x - shape.x) ** 2 + (y - shape.y) ** 2);
                 return dist <= shape.radius;
-            } else if (shape.type === 'rect' || shape.type === 'roundedRect') {
+            } else if (shape.type === "rect" || shape.type === "roundedRect") {
                 return x >= shape.x && x <= shape.x + shape.width && y >= shape.y && y <= shape.y + shape.height;
             }
             return false;
@@ -129,14 +131,14 @@ export const handleMouseMove = (e, canvasRef, context, imageRef, shapes, current
         }
     }
 };
-export const handleMouseUp = (e, canvasRef, setIsDrawing, setIsDragging, setIsResizing, setHoveredHandle, shapes, setShapes, startX, startY, color, selectedShape, canvasScale, isDrawing) => {
+export const handleMouseUp = (e, canvasRef, setIsDrawing, setIsDragging, setIsResizing, setHoveredHandle, shapes, setShapes, startX, startY, color, selectedShape, canvasScale, isDrawing, selectedLabel) => {
     if (isDrawing) {
         const rect = canvasRef.current.getBoundingClientRect();
         const x = (e.clientX - rect.left) / canvasScale;
         const y = (e.clientY - rect.top) / canvasScale;
 
-        const newShape = createShape(selectedShape, startX, startY, x, y, color);
-        setShapes([...shapes, newShape]);
+        const newShape = createShape(selectedShape, startX, startY, x, y, color, selectedLabel);
+        setShapes(newShape);
         setIsDrawing(false);
     } else {
         setIsDragging(false);
@@ -148,27 +150,27 @@ export const handleMouseUp = (e, canvasRef, setIsDrawing, setIsDragging, setIsRe
 const getHandleAtPosition = (x, y, shapes, canvasScale) => {
     const handleSize = 8 / canvasScale;
     for (const shape of shapes) {
-        if (shape.type === 'circle') {
+        if (shape.type === "circle") {
             if (x >= shape.x + shape.radius - handleSize / 2 && x <= shape.x + shape.radius + handleSize / 2 &&
                 y >= shape.y - handleSize / 2 && y <= shape.y + handleSize / 2) {
-                return 'circle-handle';
+                return "circle-handle";
             }
-        } else if (shape.type === 'rect' || shape.type === 'roundedRect') {
+        } else if (shape.type === "rect" || shape.type === "roundedRect") {
             if (x >= shape.x - handleSize / 2 && x <= shape.x + handleSize / 2 &&
                 y >= shape.y - handleSize / 2 && y <= shape.y + handleSize / 2) {
-                return 'top-left';
+                return "top-left";
             }
             if (x >= shape.x + shape.width - handleSize / 2 && x <= shape.x + shape.width + handleSize / 2 &&
                 y >= shape.y - handleSize / 2 && y <= shape.y + handleSize / 2) {
-                return 'top-right';
+                return "top-right";
             }
             if (x >= shape.x - handleSize / 2 && x <= shape.x + handleSize / 2 &&
                 y >= shape.y + shape.height - handleSize / 2 && y <= shape.y + shape.height + handleSize / 2) {
-                return 'bottom-left';
+                return "bottom-left";
             }
             if (x >= shape.x + shape.width - handleSize / 2 && x <= shape.x + shape.width + handleSize / 2 &&
                 y >= shape.y + shape.height - handleSize / 2 && y <= shape.y + shape.height + handleSize / 2) {
-                return 'bottom-right';
+                return "bottom-right";
             }
         }
     }

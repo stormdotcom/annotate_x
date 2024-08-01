@@ -1,4 +1,4 @@
-import { drawShapes } from '../../utils/render';
+import { drawShapes } from "../../utils/render";
 
 export const resizeCanvas = (canvasRef, imageRef, context, shapes, currentShape, canvasScale) => {
     const canvas = canvasRef.current;

@@ -1,9 +1,9 @@
-import ImageEditor from "./components/ImageEditor/ImageEditor";
+import EditorWrapper from "./components/ImageEditor/EditorWrapper";
 
 function App() {
   return (
     <div className="App">
-      <ImageEditor />
+      <EditorWrapper />
     </div>
   );
 }

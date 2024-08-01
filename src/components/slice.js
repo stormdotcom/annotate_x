@@ -1,21 +1,23 @@
 // src/features/example/exampleSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 import * as ACTIONS from "./actionTypes";
-
+import data from "../data.json";
 const initialValues = {
     selectedLabel: "some value",
-    selectedColor: "pink",
+    selectedColor: "#3357FF",
+    selectedShapeType: "rect",
     currentShape: {},
-    shapes: [],
+    shapeTypes: data.shapeTypes,
+    shapes: data.shapes,
     isDrawing: false,
     isResizing: false,
     isDragging: false,
     isLoading: false,
-    error: null,
+    error: null
 };
 
 const slice = createSlice({
-    name: 'example',
+    name: "example",
     initialState: initialValues,
     reducers: {
         setSelectedLabel: (state, action) => {
@@ -28,7 +30,7 @@ const slice = createSlice({
             state.currentShape = action.payload;
         },
         setShapes: (state, action) => {
-            state.shapes = action.payload;
+            state.shapes.push(action.payload);
         },
         setIsDrawing: (state, action) => {
             state.isDrawing = action.payload;
@@ -39,6 +41,12 @@ const slice = createSlice({
         setIsDragging: (state, action) => {
             state.isDragging = action.payload;
         },
+        setShapeType: (state, action) => {
+            state.selectedShapeType = action.payload;
+        },
+        deleteLabel: (state, { payload }) => {
+            state.shapes = state.shapes.filter(item => payload.id !== item.id);
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -54,7 +62,7 @@ const slice = createSlice({
                 state.isLoading = false;
                 state.error = action.payload;
             });
-    },
+    }
 });
 
 // Export actions and reducer
