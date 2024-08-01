@@ -12,7 +12,6 @@
 - **Batch Processing**: Annotate multiple images in one go, saving time and effort.
 - **Data Export**: Export annotations in popular formats like JSON, XML (Pascal VOC), and COCO.
 - **User-Friendly Interface**: Intuitive UI/UX design for a seamless annotation experience.
-- **Collaboration Support**: Share projects and collaborate with team members in real-time.
 
 ### Installation
 
@@ -20,8 +19,8 @@ To install AnnotateX, follow these steps:
 
 1. **Clone the Repository**:
    ```
-   git clone https://github.com/stormdotcom/annotatex.git
-   cd annotatex
+   git clone https://github.com/stormdotcom/annotate_x.git
+   cd annotate_x
    ```
 
 2. **Install Dependencies**:
