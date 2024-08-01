@@ -38,7 +38,7 @@ export const handleMouseDown = (e, canvasRef, setCurrentShape, setIsDrawing, set
     }
 };
 
-export const handleMouseMove = (e, canvasRef, context, imageRef, shapes, currentShape, setShapes, setCurrentShape, setStartX, setStartY, setHoveredHandle, setIsDragging, setIsResizing, color, selectedShape, isDrawing, isDragging, isResizing, canvasScale) => {
+export const handleMouseMove = (e, canvasRef, context, imageRef, shapes, currentShape, setShapes, setCurrentShape, startX, startY, setHoveredHandle, hoveredHandle, setIsDragging, setIsResizing, color, selectedShape, isDrawing, isDragging, isResizing, canvasScale, setStartX, setStartY) => {
     const rect = canvasRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / canvasScale;
     const y = (e.clientY - rect.top) / canvasScale;
@@ -46,37 +46,37 @@ export const handleMouseMove = (e, canvasRef, context, imageRef, shapes, current
     if (isDrawing) {
         drawShapes(context, shapes, imageRef.current, currentShape, canvasScale);
         context.strokeStyle = color;
-        context.lineWidth = 2;
+        context.lineWidth = 2 / canvasScale;
         context.setLineDash([5, 3]);
         switch (selectedShape) {
             case "circle":
-                const radius = Math.sqrt((x - setStartX) ** 2 + (y - setStartY) ** 2);
+                const radius = Math.sqrt((x - startX) ** 2 + (y - startY) ** 2);
                 context.beginPath();
-                context.arc(setStartX, setStartY, radius, 0, 2 * Math.PI);
+                context.arc(startX, startY, radius, 0, 2 * Math.PI);
                 context.stroke();
                 break;
             case "rect":
-                context.strokeRect(setStartX, setStartY, x - setStartX, y - setStartY);
+                context.strokeRect(startX, startY, x - startX, y - startY);
                 break;
             case "roundedRect":
                 context.beginPath();
-                context.moveTo(setStartX + 20, setStartY);
-                context.lineTo(setStartX + (x - setStartX) - 20, setStartY);
-                context.quadraticCurveTo(setStartX + (x - setStartX), setStartY, setStartX + (x - setStartX), setStartY + 20);
-                context.lineTo(setStartX + (x - setStartX), setStartY + (y - setStartY) - 20);
-                context.quadraticCurveTo(setStartX + (x - setStartX), setStartY + (y - setStartY), setStartX + (x - setStartX) - 20, setStartY + (y - setStartY));
-                context.lineTo(setStartX + 20, setStartY + (y - setStartY));
-                context.quadraticCurveTo(setStartX, setStartY + (y - setStartY), setStartX, setStartY + (y - setStartY) - 20);
-                context.lineTo(setStartX, setStartY + 20);
-                context.quadraticCurveTo(setStartX, setStartY, setStartX + 20, setStartY);
+                context.moveTo(startX + 20, startY);
+                context.lineTo(startX + (x - startX) - 20, startY);
+                context.quadraticCurveTo(startX + (x - startX), startY, startX + (x - startX), startY + 20);
+                context.lineTo(startX + (x - startX), startY + (y - startY) - 20);
+                context.quadraticCurveTo(startX + (x - startX), startY + (y - startY), startX + (x - startX) - 20, startY + (y - startY));
+                context.lineTo(startX + 20, startY + (y - startY));
+                context.quadraticCurveTo(startX, startY + (y - startY), startX, startY + (y - startY) - 20);
+                context.lineTo(startX, startY + 20);
+                context.quadraticCurveTo(startX, startY, startX + 20, startY);
                 context.stroke();
                 break;
             default:
                 break;
         }
     } else if (isDragging && currentShape) {
-        const dx = x - setStartX;
-        const dy = y - setStartY;
+        const dx = x - startX;
+        const dy = y - startY;
         const updatedShapes = shapes.map(shape => {
             if (shape.id === currentShape.id) {
                 return { ...shape, x: shape.x + dx, y: shape.y + dy };
@@ -86,7 +86,7 @@ export const handleMouseMove = (e, canvasRef, context, imageRef, shapes, current
         setShapes(updatedShapes);
         setStartX(x);
         setStartY(y);
-    } else if (isResizing && setHoveredHandle && currentShape) {
+    } else if (isResizing && hoveredHandle && currentShape) {
         const updatedShapes = shapes.map(shape => {
             if (shape.id === currentShape.id) {
                 switch (shape.type) {
@@ -96,8 +96,8 @@ export const handleMouseMove = (e, canvasRef, context, imageRef, shapes, current
                     case "roundedRect":
                         return {
                             ...shape,
-                            width: setHoveredHandle.includes("right") ? x - shape.x : shape.width,
-                            height: setHoveredHandle.includes("bottom") ? y - shape.y : shape.height
+                            width: hoveredHandle.includes("right") ? x - shape.x : shape.width,
+                            height: hoveredHandle.includes("bottom") ? y - shape.y : shape.height
                         };
                     default:
                         return shape;
@@ -112,10 +112,9 @@ export const handleMouseMove = (e, canvasRef, context, imageRef, shapes, current
         if (handle) {
             canvasRef.current.style.cursor = "nwse-resize";
         } else {
-            canvasRef.current.style.cursor = "default";
+            canvasRef.current.style.cursor = "crosshair";
         }
 
-        // Select shape on hover
         const hoveredShape = shapes.find(shape => {
             if (shape.type === "circle") {
                 const dist = Math.sqrt((x - shape.x) ** 2 + (y - shape.y) ** 2);
@@ -131,6 +130,8 @@ export const handleMouseMove = (e, canvasRef, context, imageRef, shapes, current
         }
     }
 };
+
+
 export const handleMouseUp = (e, canvasRef, setIsDrawing, setIsDragging, setIsResizing, setHoveredHandle, shapes, setShapes, startX, startY, color, selectedShape, canvasScale, isDrawing, selectedLabel) => {
     if (isDrawing) {
         const rect = canvasRef.current.getBoundingClientRect();
@@ -138,7 +139,7 @@ export const handleMouseUp = (e, canvasRef, setIsDrawing, setIsDragging, setIsRe
         const y = (e.clientY - rect.top) / canvasScale;
 
         const newShape = createShape(selectedShape, startX, startY, x, y, color, selectedLabel);
-        setShapes(newShape);
+        setShapes([...shapes, newShape]);
         setIsDrawing(false);
     } else {
         setIsDragging(false);
@@ -146,6 +147,7 @@ export const handleMouseUp = (e, canvasRef, setIsDrawing, setIsDragging, setIsRe
         setHoveredHandle(null);
     }
 };
+
 
 const getHandleAtPosition = (x, y, shapes, canvasScale) => {
     const handleSize = 8 / canvasScale;
@@ -175,4 +177,37 @@ const getHandleAtPosition = (x, y, shapes, canvasScale) => {
         }
     }
     return null;
+};
+
+export const handleResize = (setIsWindowTooSmall, resizeCanvas, canvasRef, imageRef, context, shapes, currentShape, canvasScale) => {
+    const isTooSmall = window.innerWidth < 900 || window.innerHeight < 500;
+    setIsWindowTooSmall(isTooSmall);
+    if (!isTooSmall && canvasRef.current && imageRef.current) {
+        resizeCanvas(canvasRef, imageRef, context, shapes, currentShape, canvasScale);
+    }
+};
+
+export const resizeCanvas = (canvasRef, imageRef, context, shapes, currentShape, canvasScale) => {
+    const canvas = canvasRef.current;
+    if (canvas && imageRef.current) {
+        const containerWidth = window.innerWidth;
+        const containerHeight = window.innerHeight * 0.8;
+
+        const aspectRatio = imageRef.current.width / imageRef.current.height;
+        let newWidth = containerWidth * canvasScale;
+        let newHeight = containerHeight * canvasScale;
+
+        if (newWidth / aspectRatio > newHeight) {
+            newWidth = newHeight * aspectRatio;
+        } else {
+            newHeight = newWidth / aspectRatio;
+        }
+
+        const scale = newWidth / imageRef.current.width;
+
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+
+        drawShapes(context, shapes, imageRef.current, currentShape, scale);
+    }
 };

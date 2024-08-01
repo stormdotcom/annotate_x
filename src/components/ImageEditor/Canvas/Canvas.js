@@ -7,7 +7,8 @@ import { initialAnnotations } from "../../utils/shapes";
 import { useDispatch, useSelector } from "react-redux";
 import { STATE_SLICE_KEY } from "../../constants";
 import { actions } from "../../slice";
-import labelImg from "../../../assets/img/label-image.png"
+import labelImg from "../../../assets/img/label-image.png";
+
 const Canvas = () => {
     const dispatch = useDispatch();
     const canvasRef = useRef(null);
@@ -26,15 +27,16 @@ const Canvas = () => {
     const selectedLabel = useSelector(state => state[STATE_SLICE_KEY].selectedLabel);
     const color = useSelector(state => state[STATE_SLICE_KEY].selectedColor);
     const selectedShape = useSelector(state => state[STATE_SLICE_KEY].selectedShapeType);
-    const currentShape = useSelector(state => state[STATE_SLICE_KEY].selectedShapeType);
+    const currentShape = useSelector(state => state[STATE_SLICE_KEY].currentShape);
 
     const setCurrentShape = (s) => {
         if (s) {
-            dispatch(actions.setCurrentShape(s))
+            dispatch(actions.setCurrentShape(s));
         }
-
     };
+
     const setShapes = (data) => dispatch(actions.setShapes(data));
+
     useEffect(() => {
         const onResize = () => handleResize(setIsWindowTooSmall, resizeCanvas, canvasRef, imageRef, context, shapes, currentShape, canvasScale);
         window.addEventListener("resize", onResize);
@@ -60,6 +62,12 @@ const Canvas = () => {
         };
     }, [shapes, currentShape, canvasScale]);
 
+    const handleZoom = (direction) => {
+        const newScale = direction === "in" ? canvasScale * 1.1 : canvasScale / 1.1;
+        setCanvasScale(newScale);
+        resizeCanvas(canvasRef, imageRef, context, shapes, currentShape, newScale);
+    };
+
     return (
         <>
             {isWindowTooSmall ? (
@@ -67,13 +75,19 @@ const Canvas = () => {
                     <p>Please resize the window to at least 900 x 500 pixels.</p>
                 </div>
             ) : (
-                <canvas
-                    ref={canvasRef}
-                    style={{ border: "1px solid #ccc", width: "100%", height: "80vh", cursor: "crosshair" }}
-                    onMouseDown={(e) => handleMouseDown(e, canvasRef, setCurrentShape, setIsDrawing, setIsResizing, setIsDragging, setStartX, setStartY, setHoveredHandle, shapes, canvasScale)}
-                    onMouseMove={(e) => handleMouseMove(e, canvasRef, context, imageRef, shapes, currentShape, setShapes, setCurrentShape, setStartX, setStartY, setHoveredHandle, setIsDragging, setIsResizing, color, selectedShape, isDrawing, isDragging, isResizing, canvasScale)}
-                    onMouseUp={(e) => handleMouseUp(e, canvasRef, setIsDrawing, setIsDragging, setIsResizing, setHoveredHandle, shapes, setShapes, startX, startY, color, selectedShape, canvasScale, isDrawing, selectedLabel)}
-                />
+                <div>
+                    <div>
+                        <button onClick={() => handleZoom("in")}>Zoom In</button>
+                        <button onClick={() => handleZoom("out")}>Zoom Out</button>
+                    </div>
+                    <canvas
+                        ref={canvasRef}
+                        style={{ border: "1px solid #ccc", width: "100%", height: "80vh", cursor: "crosshair" }}
+                        onMouseDown={(e) => handleMouseDown(e, canvasRef, setCurrentShape, setIsDrawing, setIsResizing, setIsDragging, setStartX, setStartY, setHoveredHandle, shapes, canvasScale)}
+                        onMouseMove={(e) => handleMouseMove(e, canvasRef, context, imageRef, shapes, currentShape, setShapes, setCurrentShape, startX, startY, setHoveredHandle, hoveredHandle, setIsDragging, setIsResizing, color, selectedShape, isDrawing, isDragging, isResizing, canvasScale, setStartX, setStartY)}
+                        onMouseUp={(e) => handleMouseUp(e, canvasRef, setIsDrawing, setIsDragging, setIsResizing, setHoveredHandle, shapes, setShapes, startX, startY, color, selectedShape, canvasScale, isDrawing, selectedLabel)}
+                    />
+                </div>
             )}
         </>
     );

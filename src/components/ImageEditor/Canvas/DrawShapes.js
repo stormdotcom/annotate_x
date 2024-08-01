@@ -1,13 +1,16 @@
 /* eslint-disable no-use-before-define */
-
 export const drawShapes = (context, shapes, image, currentShape, scale) => {
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    context.save();
+    context.scale(scale, scale);
+
     if (image) {
-        context.drawImage(image, 0, 0, context.canvas.width, context.canvas.height);
+        context.drawImage(image, 0, 0, context.canvas.width / scale, context.canvas.height / scale);
     }
+
     shapes.forEach(shape => {
         context.strokeStyle = shape.color;
-        context.lineWidth = (currentShape && currentShape.id === shape.id) ? 4 : 2;
+        context.lineWidth = (currentShape && currentShape.id === shape.id) ? 6 / scale : 4 / scale;
         context.setLineDash([]);
         if (shape.type === "circle") {
             context.beginPath();
@@ -30,15 +33,18 @@ export const drawShapes = (context, shapes, image, currentShape, scale) => {
         }
         if (shape.label) {
             context.fillStyle = shape.color;
-            context.font = "10px Arial";
+            context.font = `${10 / scale}px Arial`;
             const labelX = shape.type === "circle" ? shape.x : shape.x + shape.width / 2;
-            const labelY = shape.type === "circle" ? shape.y + shape.radius + 15 : shape.y + shape.height + 15;
+            const labelY = shape.type === "circle" ? shape.y + shape.radius + 15 / scale : shape.y + shape.height + 15 / scale;
             context.fillText(shape.label, labelX, labelY);
         }
     });
+
     if (currentShape) {
         drawResizeHandles(context, currentShape, scale);
     }
+
+    context.restore();
 };
 
 const drawResizeHandles = (context, shape, scale) => {
