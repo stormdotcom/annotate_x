@@ -16,19 +16,25 @@ export const resizeCanvas = (canvasRef, imageRef, context, shapes, currentShape,
             newHeight = newWidth / aspectRatio;
         }
 
-        const scale = newWidth / imageRef.current.width;
+        // Apply canvasScale to the new dimensions
+        newWidth *= canvasScale;
+        newHeight *= canvasScale;
 
         canvas.width = newWidth;
         canvas.height = newHeight;
 
-        drawShapes(context, shapes, imageRef.current, currentShape, scale);
+        // Clear the canvas and apply scaling
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.scale(canvasScale, canvasScale);
+
+        drawShapes(context, shapes, imageRef.current, currentShape, canvasScale);
     }
 };
 
-export const handleResize = (setIsWindowTooSmall, resizeCanvas, canvasRef, imageRef, context, shapes, currentShape, canvasScale) => {
+export const handleResize = (setIsWindowTooSmall, resize, canvasRef, imageRef, context, shapes, currentShape, canvasScale) => {
     const isTooSmall = window.innerWidth < 900 || window.innerHeight < 500;
     setIsWindowTooSmall(isTooSmall);
     if (!isTooSmall && canvasRef.current && imageRef.current) {
-        resizeCanvas(canvasRef, imageRef, context, shapes, currentShape, canvasScale);
+        resize(canvasRef, imageRef, context, shapes, currentShape, canvasScale);
     }
-};
+}
