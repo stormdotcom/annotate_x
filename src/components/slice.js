@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // src/features/example/exampleSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 import * as ACTIONS from "./actionTypes";
@@ -8,7 +9,7 @@ const initialValues = {
     selectedShapeType: "rect",
     currentShape: {},
     shapeTypes: data.shapeTypes,
-    shapes: data.shapes,
+    shapes: {},
     isDrawing: false,
     isResizing: false,
     isDragging: false,
@@ -17,7 +18,7 @@ const initialValues = {
     context: {},
     canvasScale: 1,
     imageList: [],
-    currentImage: {}
+    currentImage: 0
 };
 
 const slice = createSlice({
@@ -34,7 +35,11 @@ const slice = createSlice({
             state.currentShape = action.payload;
         },
         setShapes: (state, action) => {
-            state.shapes.push(action.payload);
+            const imgId = state.currentImage;
+            if (!state.shapes[imgId]) {
+                state.shapes[imgId] = [];
+            }
+            state.shapes[imgId].push(action.payload);
         },
         setIsDrawing: (state, action) => {
             state.isDrawing = action.payload;
@@ -55,13 +60,13 @@ const slice = createSlice({
             state.context = action.payload;
         },
         deleteLabel: (state, { payload }) => {
-            state.shapes = state.shapes.filter(item => payload.id !== item.id);
+            state.shapes[state.currentImage] = state.shapes.filter(item => payload.id !== item.id);
         },
-        setImageList: (state, action) => {
-            state.imageList = action.payload;
+        addImage(state, action) {
+            state.imageList.push({ id: action.payload.id, name: action.payload.name });
         },
-        addImages: (state, action) => {
-            state.imageList = [...state.imageList, ...action.payload];
+        removeImage(state, action) {
+            state.imageList = state.imageList.filter(image => image.id !== action.payload.id);
         },
         setCurrentImage: (state, action) => {
             state.currentImage = action.payload;

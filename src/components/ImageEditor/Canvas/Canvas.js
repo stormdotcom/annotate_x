@@ -7,11 +7,12 @@ import { drawShapes } from "./DrawShapes";
 import { useDispatch, useSelector } from "react-redux";
 import { STATE_SLICE_KEY } from "../../constants";
 import { actions } from "../../slice";
-import labelImg from "../../../assets/img/label-image.png";
+
 import "./Canvas.css";
+import { useFileContext } from "../../FileContext";
 const Canvas = ({ canvasRef, imageRef }) => {
     const dispatch = useDispatch();
-
+    const { fileMap } = useFileContext();
     const [isDrawing, setIsDrawing] = useState(false);
     const [isResizing, setIsResizing] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
@@ -20,13 +21,16 @@ const Canvas = ({ canvasRef, imageRef }) => {
     const [hoveredHandle, setHoveredHandle] = useState(null);
     const [isWindowTooSmall, setIsWindowTooSmall] = useState(false);
 
+    const currentImage = useSelector(state => state[STATE_SLICE_KEY].currentImage);
     const context = useSelector(state => state[STATE_SLICE_KEY].context);
-    const shapes = useSelector(state => state[STATE_SLICE_KEY].shapes);
+    const allShape = useSelector(state => state[STATE_SLICE_KEY].shapes);
     const selectedLabel = useSelector(state => state[STATE_SLICE_KEY].selectedLabel);
     const color = useSelector(state => state[STATE_SLICE_KEY].selectedColor);
     const selectedShape = useSelector(state => state[STATE_SLICE_KEY].selectedShapeType);
     const currentShape = useSelector(state => state[STATE_SLICE_KEY].currentShape);
     const canvasScale = useSelector(state => state[STATE_SLICE_KEY].canvasScale);
+
+    const shapes = allShape[currentImage] || [];
     const setCurrentShape = (s) => {
         if (s) {
             dispatch(actions.setCurrentShape(s));
@@ -53,13 +57,16 @@ const Canvas = ({ canvasRef, imageRef }) => {
         setContext(ctx);
 
         const image = new Image();
-        image.src = labelImg;
-        image.onload = () => {
-            imageRef.current = image;
-            resizeCanvas(canvasRef, imageRef, ctx, shapes, currentShape, canvasScale);
-            drawShapes(ctx, shapes, imageRef.current, currentShape, canvasScale);
-        };
-    }, [shapes, currentShape, canvasScale]);
+        const img = fileMap.get(currentImage);
+        if (img) {
+            image.src = URL.createObjectURL(img); // Correctly use URL.createObjectURL
+            image.onload = () => {
+                imageRef.current = image;
+                resizeCanvas(canvasRef, imageRef, ctx, shapes, currentShape, canvasScale);
+                drawShapes(ctx, shapes, imageRef.current, currentShape, canvasScale);
+            };
+        }
+    }, [shapes, currentShape, canvasScale, currentImage]);
 
     return (
         <>

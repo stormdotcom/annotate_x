@@ -1,7 +1,7 @@
 import { hexToRgba } from "../../utils/render";
 
 /* eslint-disable no-use-before-define */
-export const drawShapes = (context, shapes, image, currentShape, scale) => {
+export const drawShapes = (context, shapes, image, currentShape, scale, currentColor) => {
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
     context.save();
     context.scale(scale, scale);
@@ -47,8 +47,7 @@ export const drawShapes = (context, shapes, image, currentShape, scale) => {
     });
 
     if (currentShape) {
-        let color = shapes[0].color;
-        drawResizeHandles(context, currentShape, scale, color);
+        drawResizeHandles(context, currentShape, scale, currentColor);
     }
 
     context.restore();

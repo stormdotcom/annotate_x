@@ -7,8 +7,11 @@ import { actions } from "../slice";
 
 const Labels = () => {
     const dispatch = useDispatch();
-    const labels = useSelector(state => state[STATE_SLICE_KEY].shapes);
+
+    const currentImage = useSelector(state => state[STATE_SLICE_KEY].currentImage);
     const currentShape = useSelector(state => state[STATE_SLICE_KEY].currentShape);
+    const labels = useSelector(state => state[STATE_SLICE_KEY].shapes[currentImage]) || [];
+
     const handleSelect = (data) => {
         if (data) {
             dispatch(actions.setCurrentShape(data));
@@ -20,7 +23,7 @@ const Labels = () => {
         <>
             <div style={{ height: "50px" }}></div>
             <Box sx={{ mt: 1, mb: 4 }}>
-                <Typography sx={{ fontWeight: 700 }}>Label</Typography>
+                <Typography sx={{ fontWeight: 700 }}>Labels</Typography>
                 <Box sx={{ maxHeight: "79vh", overflowY: "scroll" }}>
                     {labels.map((item, idx) => (
                         <Box
