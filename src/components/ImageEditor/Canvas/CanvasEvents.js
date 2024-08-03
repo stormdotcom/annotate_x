@@ -38,13 +38,13 @@ export const handleMouseDown = (e, canvasRef, setCurrentShape, setIsDrawing, set
     }
 };
 
-export const handleMouseMove = (e, canvasRef, context, imageRef, shapes, currentShape, setShapes, setCurrentShape, startX, startY, setHoveredHandle, hoveredHandle, setIsDragging, setIsResizing, color, selectedShape, isDrawing, isDragging, isResizing, canvasScale, setStartX, setStartY) => {
+export const handleMouseMove = (e, canvasRef, context, imageRef, shapes, currentShape, setShapes, setCurrentShape, startX, startY, setHoveredHandle, hoveredHandle, setIsDragging, setIsResizing, color, selectedShape, isDrawing, isDragging, isResizing, canvasScale, setStartX, setStartY, currentColor) => {
     const rect = canvasRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / canvasScale;
     const y = (e.clientY - rect.top) / canvasScale;
 
     if (isDrawing) {
-        drawShapes(context, shapes, imageRef.current, currentShape, canvasScale);
+        drawShapes(context, shapes, imageRef.current, currentShape, canvasScale, currentColor);
         context.strokeStyle = color;
         context.lineWidth = 2 / canvasScale;
         context.setLineDash([5, 3]);
@@ -139,7 +139,7 @@ export const handleMouseUp = (e, canvasRef, setIsDrawing, setIsDragging, setIsRe
         const y = (e.clientY - rect.top) / canvasScale;
 
         const newShape = createShape(selectedShape, startX, startY, x, y, color, selectedLabel);
-        setShapes([...shapes, newShape]);
+        setShapes(newShape);
         setIsDrawing(false);
     } else {
         setIsDragging(false);

@@ -1,3 +1,5 @@
+import { hexToRgba } from "../../utils/render";
+
 /* eslint-disable no-use-before-define */
 export const drawShapes = (context, shapes, image, currentShape, scale) => {
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
@@ -10,13 +12,16 @@ export const drawShapes = (context, shapes, image, currentShape, scale) => {
 
     shapes.forEach(shape => {
         context.strokeStyle = shape.color;
-        context.lineWidth = (currentShape && currentShape.id === shape.id) ? 6 / scale : 4 / scale;
+        context.lineWidth = (currentShape && currentShape.id === shape.id) ? 4 / scale : 3 / scale;
+        context.fillStyle = hexToRgba(shape.color, 0.5);
         context.setLineDash([]);
         if (shape.type === "circle") {
             context.beginPath();
             context.arc(shape.x, shape.y, shape.radius, 0, 2 * Math.PI);
             context.stroke();
+            context.fill();
         } else if (shape.type === "rect") {
+            context.fillRect(shape.x, shape.y, shape.width, shape.height);
             context.strokeRect(shape.x, shape.y, shape.width, shape.height);
         } else if (shape.type === "roundedRect") {
             context.beginPath();
@@ -30,6 +35,7 @@ export const drawShapes = (context, shapes, image, currentShape, scale) => {
             context.lineTo(shape.x, shape.y + shape.borderRadius);
             context.quadraticCurveTo(shape.x, shape.y, shape.x + shape.borderRadius, shape.y);
             context.stroke();
+            context.fill();
         }
         if (shape.label) {
             context.fillStyle = shape.color;
@@ -41,16 +47,17 @@ export const drawShapes = (context, shapes, image, currentShape, scale) => {
     });
 
     if (currentShape) {
-        drawResizeHandles(context, currentShape, scale);
+        let color = shapes[0].color;
+        drawResizeHandles(context, currentShape, scale, color);
     }
 
     context.restore();
 };
 
-const drawResizeHandles = (context, shape, scale) => {
+const drawResizeHandles = (context, shape, scale, color) => {
     if (!shape) return;
     const handleSize = 8 / scale;
-    context.fillStyle = "blue";
+    context.fillStyle = color;
     if (shape.type === "circle") {
         context.fillRect(shape.x + shape.radius - handleSize / 2, shape.y - handleSize / 2, handleSize, handleSize);
     } else if (shape.type === "rect" || shape.type === "roundedRect") {

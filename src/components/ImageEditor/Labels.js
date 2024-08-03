@@ -17,51 +17,54 @@ const Labels = () => {
 
     const handleDelete = (l) => dispatch(actions.deleteLabel(l));
     return (
-        <Box sx={{ mt: 3, mb: 4 }}>
-            <Typography>Label</Typography>
-            <Box sx={{ maxHeight: "79vh", overflowY: "scroll" }}>
-                {labels.map((item, idx) => (
-                    <Box
-                        onClick={() => handleSelect(item)}
-                        key={idx}
-                        sx={{
-                            border: item.id === currentShape.id ? "2px solid black" : "none",
-                            display: "flex",
-                            alignItems: "center",
-                            borderRadius: "15px",
-                            textAlign: "center",
-                            "&:hover": {
-                                bgcolor: "grey"
-                            },
-                            bgcolor: "lightgrey",
-                            my: 1,
-                            justifyContent: "space-between",
-                            px: 2
-                        }}
-                    >
-                        <Typography
+        <>
+            <div style={{ height: "50px" }}></div>
+            <Box sx={{ mt: 1, mb: 4 }}>
+                <Typography sx={{ fontWeight: 700 }}>Label</Typography>
+                <Box sx={{ maxHeight: "79vh", overflowY: "scroll" }}>
+                    {labels.map((item, idx) => (
+                        <Box
+                            onClick={() => handleSelect(item)}
+                            key={idx}
                             sx={{
-                                fontWeight: item.id === currentShape.id ? 700 : 400,
+                                border: item.id === currentShape.id ? "2px solid black" : "none",
+                                display: "flex",
+                                alignItems: "center",
+                                borderRadius: "15px",
+                                textAlign: "center",
                                 "&:hover": {
-                                    cursor: "pointer"
+                                    bgcolor: "grey"
                                 },
-                                flexGrow: 1
+                                bgcolor: "lightgrey",
+                                my: 1,
+                                justifyContent: "space-between",
+                                px: 2
                             }}
                         >
-                            {item.label}
-                        </Typography>
-                        <Box sx={{ display: "flex" }}>
-                            <IconButton onClick={() => handleDelete(item)}>
-                                <Delete />
-                            </IconButton>
-                            <IconButton>
-                                <RemoveRedEyeOutlined />
-                            </IconButton>
+                            <Typography
+                                sx={{
+                                    fontWeight: item.id === currentShape.id ? 700 : 400,
+                                    "&:hover": {
+                                        cursor: "pointer"
+                                    },
+                                    flexGrow: 1
+                                }}
+                            >
+                                {item.label}
+                            </Typography>
+                            <Box sx={{ display: "flex" }}>
+                                <IconButton onClick={() => handleDelete(item)}>
+                                    <Delete />
+                                </IconButton>
+                                <IconButton>
+                                    <RemoveRedEyeOutlined />
+                                </IconButton>
+                            </Box>
                         </Box>
-                    </Box>
-                ))}
+                    ))}
+                </Box>
             </Box>
-        </Box>
+        </>
     );
 };
 

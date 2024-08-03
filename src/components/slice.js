@@ -13,7 +13,11 @@ const initialValues = {
     isResizing: false,
     isDragging: false,
     isLoading: false,
-    error: null
+    error: null,
+    context: {},
+    canvasScale: 1,
+    imageList: [],
+    currentImage: {}
 };
 
 const slice = createSlice({
@@ -44,8 +48,23 @@ const slice = createSlice({
         setShapeType: (state, action) => {
             state.selectedShapeType = action.payload;
         },
+        setCanvasScale: (state, action) => {
+            state.canvasScale = action.payload;
+        },
+        setContext: (state, action) => {
+            state.context = action.payload;
+        },
         deleteLabel: (state, { payload }) => {
             state.shapes = state.shapes.filter(item => payload.id !== item.id);
+        },
+        setImageList: (state, action) => {
+            state.imageList = action.payload;
+        },
+        addImages: (state, action) => {
+            state.imageList = [...state.imageList, ...action.payload];
+        },
+        setCurrentImage: (state, action) => {
+            state.currentImage = action.payload;
         }
     },
     extraReducers: (builder) => {

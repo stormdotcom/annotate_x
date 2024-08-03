@@ -2,6 +2,7 @@ import React from "react";
 import ImageEditor from "./ImageEditor";
 import { Box } from "@mui/material";
 import Labels from "./Labels";
+import ImageViewWrapper from "./ImageList/ImageViewWrapper";
 
 const EditorWrapper = () => {
     return (
@@ -14,7 +15,7 @@ const EditorWrapper = () => {
             }}
         >
             <Box sx={{ gridColumn: "1 / 2" }}>
-
+                <ImageViewWrapper />
             </Box>
             <Box sx={{ gridColumn: "2 / 3" }}>
                 <ImageEditor />

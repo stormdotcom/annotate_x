@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-export const drawShapes = (context, shapes, image, currentShape, scale) => {
+export const drawShapes = (context, shapes, image, currentShape, scale, color) => {
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
     if (image) {
         context.drawImage(image, 0, 0, context.canvas.width, context.canvas.height);
@@ -36,15 +36,15 @@ export const drawShapes = (context, shapes, image, currentShape, scale) => {
         }
     });
     if (currentShape) {
-        drawResizeHandles(context, currentShape, scale);
+        drawResizeHandles(context, currentShape, scale, color);
     }
 
 };
 
-const drawResizeHandles = (context, shape, scale) => {
+const drawResizeHandles = (context, shape, scale, color) => {
     if (!shape) return;
     const handleSize = 8 / scale;
-    context.fillStyle = "blue";
+    context.fillStyle = color;
     if (shape.type === "circle") {
         context.fillRect(shape.x + shape.radius - handleSize / 2, shape.y - handleSize / 2, handleSize, handleSize);
     } else if (shape.type === "rect" || shape.type === "roundedRect") {
@@ -54,3 +54,16 @@ const drawResizeHandles = (context, shape, scale) => {
         context.fillRect(shape.x + shape.width - handleSize / 2, shape.y + shape.height - handleSize / 2, handleSize, handleSize);
     }
 };
+
+
+export function hexToRgba(hex, opacity) {
+
+    hex = hex.replace(/^#/, "");
+
+    let r = parseInt(hex.substring(0, 2), 16);
+    let g = parseInt(hex.substring(2, 4), 16);
+    let b = parseInt(hex.substring(4, 6), 16);
+
+
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
