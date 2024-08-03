@@ -1,5 +1,4 @@
-/* eslint-disable no-undef */
-// src/features/example/exampleSlice.js
+import _ from "lodash";
 import { createSlice } from "@reduxjs/toolkit";
 import * as ACTIONS from "./actionTypes";
 import data from "../data.json";
@@ -60,7 +59,9 @@ const slice = createSlice({
             state.context = action.payload;
         },
         deleteLabel: (state, { payload }) => {
-            state.shapes[state.currentImage] = state.shapes.filter(item => payload.id !== item.id);
+            const currentShapes = _.get(state.shapes, state.currentImage, []);
+            const updatedShapes = currentShapes.filter(item => payload.id !== item.id);
+            _.set(state.shapes, state.currentImage, updatedShapes);
         },
         addImage(state, action) {
             state.imageList.push({ id: action.payload.id, name: action.payload.name });

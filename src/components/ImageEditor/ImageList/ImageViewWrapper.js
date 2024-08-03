@@ -15,7 +15,7 @@ const ImageViewWrapper = () => {
     const handleImageSelect = (id) => dispatch(actions.setCurrentImage(id));
     return (
         <Box sx={{ mt: 3, py: 1, px: 2 }}>
-            <Box sx={{ border: "1px solid #000", height: "90vh", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+            <Box sx={{ border: "1px solid #ccc", height: "90vh", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                 <Grid container spacing={2} sx={{ mt: 1, maxHeight: "79vh", overflowY: "scroll", display: "flex", flexDirection: "row", flexWrap: "no-wrap", p: 1 }}>
                     {imageList.map(({ id }) => (
                         <Grid item key={id} sx={{ "&:hover": { bgcolor: "lightgrey", cursor: "pointer" }, my: 1, marginX: "auto" }} onClick={() => handleImageSelect(id)}>

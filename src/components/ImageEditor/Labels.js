@@ -4,21 +4,29 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { STATE_SLICE_KEY } from "../constants";
 import { actions } from "../slice";
+import { drawShapes } from "../utils/render";
 
-const Labels = () => {
+const Labels = ({ imageRef }) => {
     const dispatch = useDispatch();
 
     const currentImage = useSelector(state => state[STATE_SLICE_KEY].currentImage);
     const currentShape = useSelector(state => state[STATE_SLICE_KEY].currentShape);
     const labels = useSelector(state => state[STATE_SLICE_KEY].shapes[currentImage]) || [];
-
+    const context = useSelector(state => state[STATE_SLICE_KEY].context);
+    const canvasScale = useSelector(state => state[STATE_SLICE_KEY].canvasScale);
     const handleSelect = (data) => {
         if (data) {
             dispatch(actions.setCurrentShape(data));
         }
     };
 
-    const handleDelete = (l) => dispatch(actions.deleteLabel(l));
+    const handleDelete = (l) => {
+        dispatch(actions.deleteLabel(l));
+        setTimeout(() => {
+            context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+            drawShapes(context, labels, imageRef.current, currentShape, canvasScale);
+        }, 0);
+    };
     return (
         <>
             <div style={{ height: "50px" }}></div>
