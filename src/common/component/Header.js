@@ -37,7 +37,7 @@ const Header = ({ signOut }) => {
     const handleLogout = () => {
         localStorage.removeItem("user");
         signOut();
-        window.location.href = "/login";
+        window.location.reload("/reload");
     };
 
     return (
