@@ -12,13 +12,15 @@
     },
     "plugins": [
         "react",
-        "react-hooks"
+        "react-hooks",
+        "react-compiler"
     ],
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended"
     ],
     "rules": {
+        "react-compiler/rule-name": "off",
         "react/no-unescaped-entities": "off",
         "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
         "react-hooks/exhaustive-deps": "off", // Checks effect dependencies
