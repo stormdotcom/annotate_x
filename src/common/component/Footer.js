@@ -11,10 +11,10 @@ const Footer = () => {
                 bgcolor: "primary.main",
                 color: "white",
                 textAlign: "center",
-                p: 0.5
+                p: 0.1
             }}
         >
-            <Typography variant="p">© 2024 Annotate X. All rights reserved.</Typography>
+            <Typography sx={{ fontSize: "10px" }} variant="p">© 2024 Annotate X. All rights reserved.</Typography>
         </Box>
     );
 };

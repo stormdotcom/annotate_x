@@ -12,7 +12,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { isAuthenticated } from "../utils";
-
+import LogoutOutlined from "@mui/icons-material/LogoutOutlined";
 import logo from "../../assets/img/logo.png";
 
 const Header = ({ signOut }) => {
@@ -41,7 +41,7 @@ const Header = ({ signOut }) => {
     };
 
     return (
-        <AppBar position="static" sx={{ py: 0, bgcolor: "#ffff", maxHeight: 43 }}>
+        <AppBar position="static" sx={{ py: 0, bgcolor: "#ffff", maxHeight: 39 }}>
             <Toolbar sx={{ justifyContent: "space-between" }}>
                 <img src={logo} alt="AnnotateX" height={25} />
                 {isMobile ? (
@@ -58,8 +58,13 @@ const Header = ({ signOut }) => {
                         <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerToggle}>
                             <List>
                                 {user && (
-                                    <ListItem onClick={handleLogout}>
-                                        <ListItemText primary="Logout" />
+                                    <ListItem onClick={handleLogout} sx={{
+                                        "&:hover": {
+                                            bgcolor: "grey"
+                                        }
+                                    }}>
+                                        <LogoutOutlined fontSize="small" />
+                                        <ListItemText sx={{ fontSize: "10px" }} primary="Logout" />
                                     </ListItem>
                                 )}
                             </List>
@@ -74,7 +79,7 @@ const Header = ({ signOut }) => {
                                 onClick={handleMenuOpen}
                                 sx={{ ml: "auto" }}
                             >
-                                <MenuIcon sx={{ color: "text.primary" }} />
+                                <MenuIcon fontSize="small" sx={{ color: "text.primary" }} />
                             </IconButton>
                         )}
                         {user && (
@@ -83,7 +88,10 @@ const Header = ({ signOut }) => {
                                 open={Boolean(anchorEl)}
                                 onClose={handleMenuClose}
                             >
-                                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                                <MenuItem sx={{ fontSize: "12px" }} onClick={handleLogout}>
+                                    <LogoutOutlined fontSize="small" />
+                                    Logout
+                                </MenuItem>
                             </Menu>
                         )}
                     </>

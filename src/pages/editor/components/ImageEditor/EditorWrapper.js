@@ -14,7 +14,7 @@ const EditorWrapper = () => {
                 <Box
                     sx={{
                         display: "grid",
-                        gridTemplateColumns: "2fr 7fr 3fr",
+                        gridTemplateColumns: "2fr 8fr 2fr",
                         gap: 2,
                         height: "100vh"
                     }}

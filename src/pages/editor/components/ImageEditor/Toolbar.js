@@ -69,14 +69,15 @@ const Toolbar = ({ canvasRef, imageRef }) => {
     };
 
     return (
-        <Grid container spacing={2} alignItems="center" sx={{ my: 2 }}>
+        <Grid container spacing={2} alignItems="center" sx={{ my: 1 }}>
             <Grid item xs={12} md={3}>
-                <FormControl variant="outlined" fullWidth>
-                    <InputLabel>Select shape</InputLabel>
+                <FormControl variant="outlined" fullWidth sx={{ "& .MuiInputBase-root": { height: 35, fontSize: 12 } }}>
+                    <InputLabel sx={{ fontSize: 14 }}>Select shape</InputLabel>
                     <Select
                         value={selectedShapeType}
                         onChange={(e) => setSelectedShapeType(e.target.value)}
                         label="Select shape"
+                        sx={{ height: 35, fontSize: 12 }}
                     >
                         {shapeTypes.map((item, idx) => (
                             <MenuItem key={idx} value={item.value}>
@@ -93,13 +94,14 @@ const Toolbar = ({ canvasRef, imageRef }) => {
                     value={selectedLabel}
                     onChange={(e) => setLabel(e.target.value)}
                     fullWidth
+                    sx={{ height: 35, fontSize: 12, "& .MuiInputBase-root": { height: 35, fontSize: 12 } }}
                 />
             </Grid>
             <Grid item xs={12} md={3} style={{ display: "flex", alignItems: "center" }}>
-                <IconButton onClick={handleClick}>
-                    <ColorLens fontSize="large" style={{ color: "grey", backgroundColor: "white" }} />
+                <IconButton onClick={handleClick} sx={{ width: 36, height: 36 }}>
+                    <ColorLens fontSize="small" style={{ color: "grey", backgroundColor: "white" }} />
                 </IconButton>
-                <Box sx={{ position: "relative", backgroundColor: selectedColor, width: "24px", height: "24px", borderRadius: "50%" }} />
+                <Box sx={{ position: "relative", backgroundColor: selectedColor, width: "12px", height: "12px", borderRadius: "50%" }} />
                 <Menu
                     anchorEl={anchorEl}
                     open={Boolean(anchorEl)}
@@ -113,11 +115,11 @@ const Toolbar = ({ canvasRef, imageRef }) => {
                 </Menu>
             </Grid>
             <Grid item xs={12} md={3} style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-                <IconButton onClick={() => handleZoom("in")}>
-                    <ZoomIn />
+                <IconButton onClick={() => handleZoom("in")} sx={{ width: 36, height: 36 }}>
+                    <ZoomIn fontSize="small" />
                 </IconButton>
-                <IconButton onClick={() => handleZoom("out")}>
-                    <ZoomOut />
+                <IconButton onClick={() => handleZoom("out")} sx={{ width: 36, height: 36 }}>
+                    <ZoomOut fontSize="small" />
                 </IconButton>
             </Grid>
         </Grid>

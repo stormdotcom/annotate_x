@@ -48,7 +48,7 @@ const SignIn = () => {
                         <img src={logo} alt="Logo" style={{ width: "100%" }} />
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography variant="h4" component="h1" gutterBottom>
+                        <Typography sx={{ color: "text.primary" }} variant="h4" component="h1" gutterBottom>
                             Sign In
                         </Typography>
                         <Box mt={2}>

@@ -11,6 +11,10 @@ import NotFound from "../pages/NotFound";
 const PublicRoute = ({ children }) => {
     return !isAuthenticated() ? children : <Navigate to="/" />;
 };
+const PrivateRoute = ({ children }) => {
+    return isAuthenticated() ? children : <Navigate to="/login" />;
+};
+
 
 const AppRoutes = () => {
     return (
@@ -25,8 +29,13 @@ const AppRoutes = () => {
                         </ErrorBoundary>
                     }
                 />
-                <Route path="/" element={<ErrorBoundary><p>Home</p></ErrorBoundary>} />
-                <Route path="/editor" element={<ErrorBoundary><EditorWrapper /></ErrorBoundary>} />
+                <Route path="/"
+                    element={
+                        <ErrorBoundary>
+                            <PrivateRoute>
+                                <EditorWrapper />
+                            </PrivateRoute>
+                        </ErrorBoundary>} />
                 <Route path="/*" element={<ErrorBoundary><NotFound /></ErrorBoundary>} />
                 <Route
                     path="/*"
