@@ -24,7 +24,7 @@ const SignIn = () => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
             localStorage.setItem("user", JSON.stringify(result.user));
-            window.location.reload("/");
+            window.location.href("/");
         } catch (error) {
             console.error("Error during Google login:", error);
         }
@@ -34,7 +34,7 @@ const SignIn = () => {
         try {
             const result = await signInWithPopup(auth, GitHubProvider);
             localStorage.setItem("user", JSON.stringify(result.user));
-            window.location.reload("/");
+            window.location.href("/");
         } catch (error) {
             console.error("Error during GitHub login:", error);
         }
