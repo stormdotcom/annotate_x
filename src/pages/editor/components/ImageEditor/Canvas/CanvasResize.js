@@ -37,4 +37,4 @@ export const handleResize = (setIsWindowTooSmall, resize, canvasRef, imageRef, c
     if (!isTooSmall && canvasRef.current && imageRef.current) {
         resize(canvasRef, imageRef, context, shapes, currentShape, canvasScale);
     }
-}
+};

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // src/components/ErrorBoundary.js
 import React, { Component } from "react";
 import ErrorFallback from "./ErrorFallback";
