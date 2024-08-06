@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { createSlice } from "@reduxjs/toolkit";
 import * as ACTIONS from "./actionTypes";
-import data from "../data.json";
+import data from "../../../data.json";
 const initialValues = {
     selectedLabel: "some value",
     selectedColor: "#3357FF",

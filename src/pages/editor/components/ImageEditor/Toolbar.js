@@ -5,7 +5,7 @@ import { Select, Menu, MenuItem, IconButton, FormControl, InputLabel, TextField,
 
 import { STATE_SLICE_KEY } from "../constants";
 import { actions } from "../slice";
-import data from "../../data.json";
+import data from "../../../../data.json";
 import { resizeCanvas } from "./Canvas/CanvasResize";
 import { drawShapes } from "../utils/render";
 

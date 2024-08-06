@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import editorSlice from "../components/slice";
+import editorSlice from "../pages/editor/components/slice";
 import logger from "redux-logger";
 import { thunk } from "redux-thunk";
-import { STATE_SLICE_KEY } from "../components/constants";
+import { STATE_SLICE_KEY } from "../pages/editor/components/constants";
 
 const defaultMiddleware = {
     serializableCheck: {

@@ -1,15 +1,13 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { resizeCanvas, handleResize } from "./CanvasResize";
 import { handleMouseDown, handleMouseMove, handleMouseUp } from "./CanvasEvents";
 import { drawShapes } from "./DrawShapes";
-
 import { useDispatch, useSelector } from "react-redux";
 import { STATE_SLICE_KEY } from "../../constants";
 import { actions } from "../../slice";
-
 import "./Canvas.css";
 import { useFileContext } from "../../FileContext";
+
 const Canvas = ({ canvasRef, imageRef }) => {
     const dispatch = useDispatch();
     const { fileMap } = useFileContext();
@@ -43,7 +41,6 @@ const Canvas = ({ canvasRef, imageRef }) => {
     useEffect(() => {
         const onResize = () => handleResize(setIsWindowTooSmall, resizeCanvas, canvasRef, imageRef, context, shapes, currentShape, canvasScale);
         window.addEventListener("resize", onResize);
-
         onResize();
 
         return () => {
@@ -52,21 +49,24 @@ const Canvas = ({ canvasRef, imageRef }) => {
     }, [context, shapes, currentShape, canvasScale]);
 
     useEffect(() => {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext("2d");
-        setContext(ctx);
+        if (canvasRef.current) {
+            const ctx = canvasRef.current.getContext("2d");
+            if (ctx) {
+                setContext(ctx);
+            }
 
-        const image = new Image();
-        const img = fileMap.get(currentImage);
-        if (img) {
-            image.src = URL.createObjectURL(img); // Correctly use URL.createObjectURL
-            image.onload = () => {
-                imageRef.current = image;
-                resizeCanvas(canvasRef, imageRef, ctx, shapes, currentShape, canvasScale);
-                drawShapes(ctx, shapes, imageRef.current, currentShape, canvasScale);
-            };
+            const image = new Image();
+            const img = fileMap.get(currentImage);
+            if (img) {
+                image.src = URL.createObjectURL(img); // Correctly use URL.createObjectURL
+                image.onload = () => {
+                    imageRef.current = image;
+                    resizeCanvas(canvasRef, imageRef, ctx, shapes, currentShape, canvasScale);
+                    drawShapes(ctx, shapes, imageRef.current, currentShape, canvasScale);
+                };
+            }
         }
-    }, [shapes, currentShape, canvasScale, currentImage]);
+    }, [canvasRef, imageRef, shapes, currentShape, canvasScale, currentImage]);
 
     return (
         <>
@@ -76,7 +76,6 @@ const Canvas = ({ canvasRef, imageRef }) => {
                 </div>
             ) : (
                 <div className="canvas-container">
-
                     <canvas
                         ref={canvasRef}
                         style={{ border: "1px solid #ccc", width: "100%", height: "80vh", cursor: "crosshair" }}
