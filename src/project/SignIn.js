@@ -1,11 +1,12 @@
 /* eslint-disable no-console */
 import React, { useEffect } from "react";
-import { auth, GitHubProvider, googleProvider } from "../app/firebase";
-import { signInWithPopup, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../app/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import { Box, Button, Typography, Grid, Paper } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import logo from "../assets/img/logo1.png";
+import { signInWithGithub } from "../app/fireStore";
 
 const SignIn = () => {
 
@@ -20,25 +21,6 @@ const SignIn = () => {
         return () => unsubscribe();
     }, []);
 
-    const handleLoginGoogle = async () => {
-        try {
-            const result = await signInWithPopup(auth, googleProvider);
-            localStorage.setItem("user", JSON.stringify(result.user));
-            window.location.reload("/");
-        } catch (error) {
-            console.error("Error during Google login:", error);
-        }
-    };
-
-    const handleLoginGitHub = async () => {
-        try {
-            const result = await signInWithPopup(auth, GitHubProvider);
-            localStorage.setItem("user", JSON.stringify(result.user));
-            window.location.reload("/");
-        } catch (error) {
-            console.error("Error during GitHub login:", error);
-        }
-    };
 
     return (
         <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "91vh" }}>
@@ -57,7 +39,7 @@ const SignIn = () => {
                                 color="secondary"
                                 fullWidth
                                 startIcon={<GoogleIcon />}
-                                onClick={handleLoginGoogle}
+                                onClick={signInWithGithub}
                             >
                                 Sign in with Google
                             </Button>
@@ -68,7 +50,7 @@ const SignIn = () => {
                                 color="secondary"
                                 fullWidth
                                 startIcon={<GitHubIcon />}
-                                onClick={handleLoginGitHub}
+                                onClick={signInWithGithub}
                             >
                                 Sign in with GitHub
                             </Button>
