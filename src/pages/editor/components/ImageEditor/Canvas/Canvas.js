@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { STATE_SLICE_KEY } from "../../constants";
 import { actions } from "../../slice";
 import "./Canvas.css";
-import { useFileContext } from "../../FileContext";
+import { useFileContext } from "../../../../../app/FileContext";
 
 const Canvas = ({ canvasRef, imageRef }) => {
     const dispatch = useDispatch();

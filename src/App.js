@@ -4,6 +4,7 @@ import AppRoutes from "./routes/AppRoutes";
 import ProjectLayout from "./project/ProjectLayout";
 import { useEffect } from "react";
 import { isAuthenticated } from "./common/utils";
+import { FileProvider } from "./app/FileContext";
 
 function App() {
   useEffect(() => {
@@ -13,13 +14,14 @@ function App() {
   }, []);
   return (
     <div className="App">
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <ProjectLayout>
-          <AppRoutes />
-        </ProjectLayout>
-
-      </ThemeProvider>
+      <FileProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <ProjectLayout>
+            <AppRoutes />
+          </ProjectLayout>
+        </ThemeProvider>
+      </FileProvider>
     </div>
   );
 }

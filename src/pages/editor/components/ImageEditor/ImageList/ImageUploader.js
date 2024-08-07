@@ -8,7 +8,7 @@ import { Image as ImageIcon } from "@mui/icons-material";
 
 import { verifyFiles } from "../../utils/imageUtils";
 import { actions } from "../../slice";
-import { useFileContext } from "../../FileContext";
+import { useFileContext } from "../../../../../app/FileContext";
 
 const ImageUploader = () => {
     const dispatch = useDispatch();
@@ -44,7 +44,7 @@ const ImageUploader = () => {
             />
             <label htmlFor="image-uploader-input">
                 <Button variant="contained" color="primary" component="span" startIcon={<ImageIcon />}>
-                    Upload Images
+                    Add More
                 </Button>
             </label>
             <ToastContainer />

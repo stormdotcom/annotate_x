@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { STATE_SLICE_KEY } from "../../constants";
 import ImageView from "./ImageView";
 import ImageUploader from "./ImageUploader";
-import { useFileContext } from "../../FileContext";
+import { useFileContext } from "../../../../../app/FileContext";
 import { actions } from "../../slice";
 
 const ImageViewWrapper = () => {

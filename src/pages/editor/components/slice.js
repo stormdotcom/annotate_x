@@ -17,7 +17,8 @@ const initialValues = {
     context: {},
     canvasScale: 1,
     imageList: [],
-    currentImage: 0
+    currentImage: 0,
+    uploadImagePopup: true
 };
 
 const slice = createSlice({
@@ -26,6 +27,9 @@ const slice = createSlice({
     reducers: {
         setSelectedLabel: (state, action) => {
             state.selectedLabel = action.payload;
+        },
+        setImageUploadPopUp: (state, action) => {
+            state.uploadImagePopup = action.payload;
         },
         setSelectedColor: (state, action) => {
             state.selectedColor = action.payload;
