@@ -78,7 +78,7 @@ const Canvas = ({ canvasRef, imageRef }) => {
                 <div className="canvas-container">
                     <canvas
                         ref={canvasRef}
-                        style={{ border: "1px solid #ccc", width: "100%", height: "80vh", cursor: "crosshair" }}
+                        style={{ border: "1px solid #ccc", width: "100%", height: "81vh", cursor: "crosshair" }}
                         onMouseDown={(e) => handleMouseDown(e, canvasRef, setCurrentShape, setIsDrawing, setIsResizing, setIsDragging, setStartX, setStartY, setHoveredHandle, shapes, canvasScale)}
                         onMouseMove={(e) => handleMouseMove(e, canvasRef, context, imageRef, shapes, currentShape, setShapes, setCurrentShape, startX, startY, setHoveredHandle, hoveredHandle, setIsDragging, setIsResizing, color, selectedShape, isDrawing, isDragging, isResizing, canvasScale, setStartX, setStartY, color)}
                         onMouseUp={(e) => handleMouseUp(e, canvasRef, setIsDrawing, setIsDragging, setIsResizing, setHoveredHandle, shapes, setShapes, startX, startY, color, selectedShape, canvasScale, isDrawing, selectedLabel)}

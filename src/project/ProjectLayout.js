@@ -11,7 +11,7 @@ const ProjectLayout = ({ children }) => {
         >
             <Header signOut={handleLogout} />
             <Box sx={{ display: "flex", justifyContent: "space-between ", height: "100%", overflowY: "hidden", bgcolor: "#ffff" }}>
-                <Box sx={{ flexGrow: 1, overflowX: "auto", display: "flex", flexDirection: "column", justifyContent: "space-between", height: "calc(100vh - 82px) !important ", width: "100%", overflowY: "scroll" }}>
+                <Box sx={{ flexGrow: 1, overflowX: "auto", display: "flex", flexDirection: "column", justifyContent: "space-between", height: "calc(100vh - 40px) !important ", width: "100%", overflowY: "scroll" }}>
                     <Box sx={{ bgcolor: "white.main", borderRadius: "20px", flexGrow: 1 }}>
                         {children}
                     </Box>

@@ -1,10 +1,11 @@
-import { Delete, RemoveRedEyeOutlined } from "@mui/icons-material";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Delete, Download, RemoveRedEyeOutlined } from "@mui/icons-material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { STATE_SLICE_KEY } from "../constants";
 import { actions } from "../slice";
 import { drawShapes } from "../utils/render";
+import { downloadJSON } from "../../../../common/utils";
 
 const Labels = ({ imageRef }) => {
     const dispatch = useDispatch();
@@ -14,9 +15,15 @@ const Labels = ({ imageRef }) => {
     const labels = useSelector(state => state[STATE_SLICE_KEY].shapes[currentImage]) || [];
     const context = useSelector(state => state[STATE_SLICE_KEY].context);
     const canvasScale = useSelector(state => state[STATE_SLICE_KEY].canvasScale);
+    const allLabels = useSelector(state => state[STATE_SLICE_KEY].shapes);
     const handleSelect = (data) => {
         if (data) {
             dispatch(actions.setCurrentShape(data));
+        }
+    };
+    const handleDownload = () => {
+        if (allLabels) {
+            downloadJSON(allLabels);
         }
     };
 
@@ -28,11 +35,11 @@ const Labels = ({ imageRef }) => {
         }, 0);
     };
     return (
-        <>
+        <Box sx={{ position: "relative", height: "100vh", display: "flex", flexDirection: "column" }}>
             <div style={{ height: "50px" }}></div>
-            <Box sx={{ mt: 1, mb: 4 }}>
+            <Box sx={{ mt: 1, height: "74vh" }}>
                 <Typography sx={{ fontWeight: 700 }}>Labels</Typography>
-                <Box sx={{ maxHeight: "79vh", overflowY: "scroll" }}>
+                <Box sx={{ maxHeight: "70vh", overflowY: "scroll" }}>
                     {labels.map((item, idx) => (
                         <Box
                             onClick={() => handleSelect(item)}
@@ -75,7 +82,12 @@ const Labels = ({ imageRef }) => {
                     ))}
                 </Box>
             </Box>
-        </>
+            <Box sx={{ width: "100%" }}>
+                <Button variant="contained" color="primary" component="span" onClick={handleDownload} startIcon={<Download />}>
+                    Download JSON
+                </Button>
+            </Box>
+        </Box>
     );
 };
 
